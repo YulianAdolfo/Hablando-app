@@ -1,0 +1,459 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+/* ---------------- CSS for login starts ------------------------- */
+:root {
+    --blue-color: #0381ff
+}
+.container-registration-number {
+    width: 100%;
+    height: 100vh;
+    background-image: url('../images/sky3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: none;
+}
+.container-login {
+    width: 350px;
+    height: 450px;
+    background-color: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform:translate(-50%, -50%);
+}
+.container-login legend {
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.container-login header {
+    background-color: var(--blue-color);
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    padding: 5px;   
+    color: white;
+}
+.container-login i {
+    position: absolute;
+    left: 0;
+    font-size: 30px;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.box-button {
+    width: 100%;
+    background-color: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.tel-box, .tel-button {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+.tel-box, .tel-button {
+    height: 45px;
+    outline: none;
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+.tel-button {
+    margin-top: 20px;
+    height: 40px;
+    cursor: pointer;
+    background-color: var(--blue-color);
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+}
+.tel-button:hover {
+    background-color: #0069d3;
+}
+#warning-text-login {
+    position: relative;   
+    margin-top: 10px;
+    color: red;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    display: none;
+}
+.alert-status-login {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    background-color: red;
+    transition: top 0.5s ease;
+}
+.status-message {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+}
+.status-message h1 {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+.status-message img {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    right: 0;
+    top: -2px;
+}
+/* ---------------- CSS for login ends ------------------------- */
+/* ---------------- CSS for dashboard starts ------------------------- */
+.div-header, .div-content {
+    width: 100%;
+}
+.div-header {
+    background-color: red;
+    height: 40px;
+    font-family: "PT Sans", sans-serif;
+    display: none;
+}
+.div-header h1{
+    display: inline-block;
+    font-size: 26px;
+    color: white;
+    margin-left: 10px;
+    font-weight: 700;
+}
+.div-header span {
+    margin-left: 5px;
+    color: white;
+    font-size: 25px;
+}
+.div-content {
+    height: 92vh;
+    display: none;
+}
+.contacts {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: scroll;
+}
+.contacts .contact-card {
+    width: 200px;
+    height: 200px;
+    margin: 5px;
+    background-color: white;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+.contact-name, .contact-info {
+    width: 100%;
+}
+.contact-name {
+    background-color:var(--blue-color);
+    height: 30px;
+}
+.contact-name h2 {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    font-size: 15px;
+    margin-left: 10px;
+    padding-top: 5px;
+    display: inline-block;
+}
+.user-icon i, .user-icon h3{
+    color: var(--blue-color);
+    margin: 0;
+    display: block;
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+}
+.user-icon h3 {
+    color: black;
+    font-size: 20px;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.contact-info {
+    height: 175px;
+}
+.user-icon, .call-button-div {
+    width: 100%;
+}
+.user-icon {
+    height: 100px;
+}
+.call-button-div {
+    height: 75px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.call-button-div button {
+    width: 90%;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    border: none;
+    background-color: var(--blue-color);
+    color: white;
+    cursor: pointer;
+}
+.call-button-div i {
+    margin-right: 5px;
+}
+.contact-card .contact-name button {
+    float: right;
+    margin-right: 5px;
+    margin-top: 7px;
+    background-color: var(--blue-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#delete-contact {
+    width: 20px;
+    margin: 0;
+    margin-right: 5px;
+}
+.add-contact {
+    background-color: rgb(255, 136, 0);
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 2;
+    border-radius: 100px;
+}
+.add-contact i {
+    font-size: 30px;
+    text-align: center;
+    margin-left: 12px;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+}
+.add-new-contact-modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, .5);
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: none;
+}
+.modal-content {
+    background-color: #fefefe;
+    width: 400px;
+    max-width: 400px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.modal-content i {
+    margin-right: 5px;
+}
+.modal-content h2 {
+    background-color: var(--blue-color);
+    color: white;
+    font-size: 20px;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    padding: 5px;
+}
+.modal-content span {
+    color: white;
+    margin-right: 10px;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.modal-content .boxes, button {
+    width: 90%;
+    height: 30px;
+    outline: none;
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    border: 1px solid #ccc;
+}
+.modal-content #name {
+    margin-top: 15px;
+}
+.modal-content button {
+    background-color: var(--blue-color);
+    color: white;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.red-alert-boxes {
+    border: 3px solid transparent;
+    animation: boxBlink 2s infinite;
+ 
+}
+@keyframes boxBlink {
+    0% { border-color: red; }
+    50% { border-color: transparent; }
+    100% { border-color: red; }
+}
+/* ---------------- CSS for dashboard ends ------------------------- */
+/* ---------------- CSS video dashboard starts ------------------------- */
+.camera-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color:var(--blue-color);
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+#camera-hablando {
+    display: block;
+    margin: 0 auto;
+    background-image: url('../images/sky3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+#button-hungup {
+    position: absolute;
+    bottom: 10px;
+    background-color: red;
+    width: 70px;
+    height: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 25px;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+}
+.attempting-to-call {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color:rgba(0, 0, 0, .5);
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+}
+.status-calling {
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    padding: 15px;
+    border-radius: 10px;
+}
+.status-calling #id-name-contact {
+    font-size: 30px;
+}
+.status-calling #cancel-call-progress{
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 0;
+    height: 40px;
+    cursor: pointer;
+}
+.status-calling #accept-call-progress{
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 0;
+    height: 40px;
+    cursor: pointer;
+}
+.inboud-call-style {
+    width: 100px;
+}
+/* ---------------- CSS video dashboard ends ------------------------- */
+@media (max-width: 650px) {
+    .contacts .contact-card {
+      width: 95%;
+    }
+    .contact-name h2 {
+        font-size: 20px;
+    }
+    .modal-content {
+        width: 95%;
+    }
+    #delete-contact {
+        width: 15px;
+        width: 10px;
+        margin-right: 15px;
+        font-size: 20px;
+    }
+    .modal-content .boxes, button {
+        font-size: 25px;
+    }
+    .modal-content .boxes {
+        padding: 5px;
+    }
+    .modal-content button {
+        height: 50px;
+    }
+    .modal-content h2 {
+        font-size: 25px;
+    }
+}
+@media (max-width: 480px) {
+    .inboud-call-style-container-mobile {
+        width: 220px;
+    }
+}
