@@ -17,7 +17,7 @@ const newContactButton = document.getElementById('save-contact')
 const newContactClose = document.getElementById('close')
 const newContactModel = document.getElementById('add-new-contact-modal')
 const cancelCall = document.getElementById('cancel-call-progress')
-const nameContactCalling = document.getElementById('id-name-contact')
+let nameContactCalling = document.getElementById('id-name-contact')
 const attemptingCalling = document.getElementById('attempting-to-call')
 const cameraContainer = document.getElementById('camera-container')
 const camera = document.getElementById('camera-hablando')
@@ -56,6 +56,7 @@ async function requestSTUNServers() {
     }
 }
 async function startConnectionPeer() {
+    let contactCalling = ''
     const servers = await requestSTUNServers()
     connectionPeerToPeer = new Peer({config:{'iceServers': servers}})
     connectionPeerToPeer.on('open', async (id) => {
@@ -72,13 +73,18 @@ async function startConnectionPeer() {
             connectionTransferData.on('data', (data)=> {
                 if(data == 'CANCEL_CALL_IN_PROGRESS') {
                     cancelRejectCallFromReceiver()
+                }else {
+                    const contacts = JSON.parse(getAllContacts())
+                    contactCalling = getContactWhosCalling(contacts, data)
                 }
             })
         })
     })
     connectionPeerToPeer.on('call', async function(call) {
         const streamForCameraAndAudio = await requestAndGetCameraAndAudio()
+        console.log(nameContactCalling)
         const buttonPickup = inboundCall()
+        nameContactCalling.textContent = `${contactCalling} llamando...`
         buttonPickup.onclick = () => {
             call.answer(streamForCameraAndAudio)
             call.on('stream', function(stream) {
@@ -242,6 +248,16 @@ function notCorrectNumberHide() {
     legendForLogin.style.display = 'none'
     legendForLogin.innerText = ''
 }
+function getContactWhosCalling(contacts, contact) {
+    let person = 'Alguien '
+    for(var i =0; i < contacts.length; i++) {
+        if(contacts[i].phone == contact) {
+            person = contacts[i].name
+            break
+        }
+    }
+    return person
+}
 function contactsCardCreate(name, phone, indexContact) {
 
     const contactCardDiv = document.createElement('div');
@@ -351,6 +367,7 @@ async function callPerson(name, phone) {
     const streamForCameraAndAudio = await requestAndGetCameraAndAudio()
     const hash = await getIDHash(phone)
     const connectionID = hash.hash
+    const localContact = localStorage.getItem('phone_id_hablando')
     soundcalling = outboundCallSound()
     nameContactCalling.innerText = `Llamando a ${name}...`
     cameraContainer.style.display = 'block'
@@ -364,6 +381,7 @@ async function callPerson(name, phone) {
                 cancelRejectCallFromReceiver()
             }
         })
+        connectionTransferData.send(localContact)
     })
     var call = connectionPeerToPeer.call(connectionID, streamForCameraAndAudio)
     call.on('stream', function(stream) {
@@ -403,7 +421,7 @@ function inboundCall() {
     acceptCallButton.id = 'accept-call-progress'
     divStatusCalling.insertBefore(acceptCallButton, cancelCall)
     cameraContainer.style.display = 'block'   
-    nameContactCalling.innerText = 'Yulian llamando...'
+    nameContactCalling.innerText = ' llamando'
     acceptCallButton.classList.add('inboud-call-style')
     cancelCall.classList.add('inboud-call-style')
     acceptCallButton.style.marginRight = '10px'
