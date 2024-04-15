@@ -1,13 +1,15 @@
 {
     "name": "Hablando.top",
     "short_name": "Hablando",
+    "theme_color": "#2196f3",
+    "background_color": "#2196f3",
     "display": "fullscreen",
     "orientation": "portrait",
     "scope": "./",
     "start_url": "./",
     "icons": [
         {
-            "src": "./images/icono-512.png",
+            "src": "./public/images/call.png",
             "type": "image/png",
             "sizes": "512x512"
         }
