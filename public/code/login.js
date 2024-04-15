@@ -27,9 +27,9 @@ const hungUpButton = document.getElementById('button-hungup')
 var connectionPeerToPeer = {}
 var connectionTransferData = ''
 var soundcalling = ''
+var soundcallingIn = ''
 
-checkIfNumberIsRegisteredLocally()
-
+//checkIfNumberIsRegisteredLocally()
 async function checkIfNumberIsRegisteredLocally() {
     if(localStorage.getItem('phone_id_hablando') != undefined && localStorage.getItem('phone_id_hablando') != '') {
         const number = localStorage.getItem('phone_id_hablando')
@@ -82,7 +82,6 @@ async function startConnectionPeer() {
     })
     connectionPeerToPeer.on('call', async function(call) {
         const streamForCameraAndAudio = await requestAndGetCameraAndAudio()
-        console.log(nameContactCalling)
         const buttonPickup = inboundCall()
         nameContactCalling.textContent = `${contactCalling} llamando...`
         buttonPickup.onclick = () => {
@@ -100,13 +99,39 @@ async function startConnectionPeer() {
             window.location.reload();
         })
     });
+    connectionPeerToPeer.on('error', (error) => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+        cancelRejectCallFromReceiver()
+        console.log(error.type)
+        if(error.type == 'peer-unavailable') {
+              Toast.fire({
+                icon: "error",
+                title: `Lo sentimos, el contacto no está conectada`
+              });
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: error.type
+            });
+        }
+    })
 }
 async function updateIDHash(phone, hash) {
     try {
         const data = await fetch('https://192.168.1.35/hablando.top/hablando.php/update_hash', { method: 'POST', body: JSON.stringify({ phone, hash }) })
         return await data.json()
     } catch (error) {
-        return alert.log(error)
+        return alert(error)
     }
 }
 async function getIDHash(phone) {
@@ -114,7 +139,7 @@ async function getIDHash(phone) {
         const data = await fetch('https://192.168.1.35/hablando.top/hablando.php/get_hash', { method: 'POST', body: JSON.stringify({ phone }) })
         return await data.json()
     } catch (error) {
-        return alert.log(error)
+        return alert(error)
     }
 }
 addNewContactButton.onclick = () => openModalNewContact()
@@ -401,6 +426,9 @@ async function callPerson(name, phone) {
 function outboundCallSound() {
     return new Audio('./public/sounds/callingoutbound.mp3')
 }
+function inboundCallSound() {
+    return new Audio('./public/sounds/callinginbound.mp3')
+}
 function requestAndGetCameraAndAudio() {
     if (!navigator.mediaDevices && !navigator.mediaDevices.getUserMedia) {
         alert('Browser does not support for camera/audio')
@@ -437,16 +465,25 @@ function cancelRejectCallFromReceiver() {
         divStatusCalling.removeChild(divStatusCalling.children[1])
     }
     cameraContainer.style.display = 'none'
+    if(soundcalling != '') {
+        soundcalling.pause()
+        soundcalling.src = null
+    }
 }
 function stopButton() { buttonBoxPhoneNumber.disabled = true }
 function startButton() { buttonBoxPhoneNumber.disabled = false }
 cancelCall.onclick = () => {
     cancelRejectCallFromReceiver()
     connectionTransferData.send('CANCEL_CALL_IN_PROGRESS')
-    console.log(soundcalling)
     if(soundcalling != '') {
         soundcalling.pause()
         soundcalling.src = null
     }
     cameraContainer.style.display = 'none'
+}
+function stopSoundIn() {
+    if(soundcallingIn != '') {
+        soundcallingIn.pause()
+        soundcalling.src = null
+    }
 }
