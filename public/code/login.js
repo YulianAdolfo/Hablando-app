@@ -29,7 +29,7 @@ var connectionTransferData = ''
 var soundcalling = ''
 var soundcallingIn = ''
 
-//checkIfNumberIsRegisteredLocally()
+checkIfNumberIsRegisteredLocally()
 async function checkIfNumberIsRegisteredLocally() {
     if(localStorage.getItem('phone_id_hablando') != undefined && localStorage.getItem('phone_id_hablando') != '') {
         const number = localStorage.getItem('phone_id_hablando')
@@ -73,6 +73,7 @@ async function startConnectionPeer() {
             connectionTransferData.on('data', (data)=> {
                 if(data == 'CANCEL_CALL_IN_PROGRESS') {
                     cancelRejectCallFromReceiver()
+                    stopSoundIn()
                 }else {
                     const contacts = JSON.parse(getAllContacts())
                     contactCalling = getContactWhosCalling(contacts, data)
@@ -83,12 +84,16 @@ async function startConnectionPeer() {
     connectionPeerToPeer.on('call', async function(call) {
         const streamForCameraAndAudio = await requestAndGetCameraAndAudio()
         const buttonPickup = inboundCall()
+        soundcallingIn = inboundCallSound()
+        soundcallingIn.play()
         nameContactCalling.textContent = `${contactCalling} llamando...`
         buttonPickup.onclick = () => {
             call.answer(streamForCameraAndAudio)
+            stopSoundIn()
             call.on('stream', function(stream) {
                 attemptingCalling.style.display = 'none'
                 camera.srcObject = stream
+
             })
         }
         hungUpButton.onclick = () => {
@@ -127,8 +132,9 @@ async function startConnectionPeer() {
     })
 }
 async function updateIDHash(phone, hash) {
+    //http://localhost/hablando.top/
     try {
-        const data = await fetch('https://192.168.1.35/hablando.top/hablando.php/update_hash', { method: 'POST', body: JSON.stringify({ phone, hash }) })
+        const data = await fetch('/hablando.top/hablando.php/update_hash', { method: 'POST', body: JSON.stringify({ phone, hash }) })
         return await data.json()
     } catch (error) {
         return alert(error)
@@ -136,7 +142,7 @@ async function updateIDHash(phone, hash) {
 }
 async function getIDHash(phone) {
     try {
-        const data = await fetch('https://192.168.1.35/hablando.top/hablando.php/get_hash', { method: 'POST', body: JSON.stringify({ phone }) })
+        const data = await fetch('/hablando.top/hablando.php/get_hash', { method: 'POST', body: JSON.stringify({ phone }) })
         return await data.json()
     } catch (error) {
         return alert(error)
@@ -259,7 +265,7 @@ function AreAllNumbers(number) {
 }
 async function validateNumber(number) {
     try {
-        const data = await fetch('https://192.168.1.35/hablando.top/hablando.php/register', { method: 'POST', body: JSON.stringify({ number }) })
+        const data = await fetch('/hablando.top/hablando.php/register', { method: 'POST', body: JSON.stringify({ number }) })
         return await data.json()
     } catch (err) {
         return alert(err)
@@ -404,6 +410,7 @@ async function callPerson(name, phone) {
                 soundcalling.pause()
                 soundcalling.src = null
                 cancelRejectCallFromReceiver()
+                stopSoundIn()
             }
         })
         connectionTransferData.send(localContact)
@@ -479,11 +486,12 @@ cancelCall.onclick = () => {
         soundcalling.pause()
         soundcalling.src = null
     }
+    stopSoundIn()
     cameraContainer.style.display = 'none'
 }
 function stopSoundIn() {
     if(soundcallingIn != '') {
         soundcallingIn.pause()
-        soundcalling.src = null
+        soundcallingIn.src = null
     }
 }
